@@ -7,8 +7,10 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.RecyclerView.VERTICAL
 import kotlinx.android.synthetic.main.activity_review.*
 import kotlinx.android.synthetic.main.content_review.*
 import me.larikraun.tourreviews.R
@@ -60,9 +62,10 @@ class ReviewActivity : AppCompatActivity(), LifecycleOwner {
         layoutManager = LinearLayoutManager(this)
         reviews_list.layoutManager = layoutManager
         reviews_list.adapter = adapter
-        reviews_list.addItemDecoration(InsetDividerDecoration(resources.getDimensionPixelSize(R.dimen.divider_height),
-                resources.getDimensionPixelSize(R.dimen.divider_height),
-                ContextCompat.getColor(this, R.color.app_darker_grey)))
+//        reviews_list.addItemDecoration(InsetDividerDecoration(resources.getDimensionPixelSize(R.dimen.divider_height),
+//                resources.getDimensionPixelSize(R.dimen.divider_height),
+//                ContextCompat.getColor(this, R.color.app_darker_grey)))
+        reviews_list.addItemDecoration(DividerItemDecoration(this,VERTICAL))
         reviews_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val visibleItemCount = layoutManager.childCount
