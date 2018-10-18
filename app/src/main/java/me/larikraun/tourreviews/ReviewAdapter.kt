@@ -1,6 +1,9 @@
 package me.larikraun.tourreviews
 
 import android.databinding.DataBindingUtil
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.LayerDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -35,6 +38,12 @@ class ReviewAdapter(private val items: List<Review>) : RecyclerView.Adapter<Revi
                 title.text = item.title
                 message.text = item.message
                 details.text = item.author
+                rating.rating = item.rating!!.toFloat()
+                val stars = rating.progressDrawable as LayerDrawable
+                stars.getDrawable(2).setColorFilter(Color.parseColor("#ffc601"), PorterDuff.Mode.SRC_ATOP)
+                stars.getDrawable(1).setColorFilter(Color.parseColor("#FFFFff"), PorterDuff.Mode.SRC_ATOP)
+                stars.getDrawable(0).setColorFilter(Color.parseColor("#e8e9ec"), PorterDuff.Mode.SRC_ATOP)
+               // stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
             }
         }
     }

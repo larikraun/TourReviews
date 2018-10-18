@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TourReviews</string>
+    <string name="app_name">Tour Reviews</string>
     <string name="action_settings">Settings</string>
     <string name="dummy_message">You specified that your donation would be between RANGE TO BE DONATED. We will immediately begin the process of setting up the asset(s) and matching you to a beneficiary who will use the asset to work and earn. Thank you for creating jobs and empowering lives through WeGaba. Our agent will put a call across to you in 24hours on PHONE NUMBER</string>
 </resources>

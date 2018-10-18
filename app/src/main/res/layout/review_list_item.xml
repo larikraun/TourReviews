@@ -20,10 +20,11 @@
             tools:text="This is a very long and interesting stuff"/>
 
         <RatingBar
+            style="?android:attr/ratingBarStyleSmall"
             android:id="@+id/rating"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:clickable="false"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
             app:layout_constraintTop_toBottomOf="@+id/title"/>
 
         <TextView
