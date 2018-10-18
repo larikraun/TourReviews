@@ -13,7 +13,7 @@ class ReviewRepository @Inject
 constructor(internal var mRetrofit: Retrofit) {
 
     fun fetchReviews(): Observable<ReviewResponse> {
-        return mRetrofit.create(FetchReviewService::class.java).fetchReviews(4, 0, 0, "date_of_review", "DESC")
+        return mRetrofit.create(FetchReviewService::class.java).fetchReviews(10, 0, 0, "date_of_review", "DESC")
     }
 
 }

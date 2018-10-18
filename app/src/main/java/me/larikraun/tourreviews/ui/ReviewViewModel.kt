@@ -9,35 +9,43 @@ import io.reactivex.schedulers.Schedulers
 import me.larikraun.tourreviews.model.Review
 import me.larikraun.tourreviews.model.ReviewResponse
 import me.larikraun.tourreviews.network.ReviewRepository
+import me.larikraun.tourreviews.utils.ConnectionUtil
 
 /**
  * Author: Omolara Adejuwon
  * Date: 18/10/2018.
  */
-class ReviewViewModel(internal var mRepository: ReviewRepository) : ViewModel() {
-    var reviews = MutableLiveData<List<Review>>()
+class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivity: ConnectionUtil) : ViewModel() {
+    var reviews = MutableLiveData<ArrayList<Review>>()
     val errorMessage = MutableLiveData<Throwable>()
 
-    val isLoading = ObservableField(false)
+    val isLoading = ObservableField(true)
+    val hasError = ObservableField(false)
     fun fetchReviewsList() {
-        mRepository.fetchReviews()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<ReviewResponse>() {
+        if (connectivity.isConnectedToInternet!!)
+            mRepository.fetchReviews()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableObserver<ReviewResponse>() {
 
-                    override fun onError(e: Throwable) {
-                        //if some error happens in our data layer our app will not crash, we will
-                        // get error here
-                        errorMessage.value = e
-                    }
+                        override fun onError(e: Throwable) {
+                            errorMessage.value = e
+                            hasError.set(true)
+                        }
 
-                    override fun onNext(data: ReviewResponse) {
-                        reviews.value = data.reviews
-                    }
+                        override fun onNext(data: ReviewResponse) {
+                            reviews.value = data.reviews
+                        }
 
-                    override fun onComplete() {
-                        isLoading.set(false)
-                    }
-                })
+                        override fun onComplete() {
+                            isLoading.set(false)
+                        }
+
+                    })
+        else {
+            errorMessage.value = Throwable("No internet connection")
+            hasError.set(true)
+            isLoading.set(false)
+        }
     }
 }

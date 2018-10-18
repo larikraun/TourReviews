@@ -13,6 +13,6 @@ class ReviewResponse {
     var totalReviewsComments: Int? = null
     @SerializedName("data")
     @Expose
-    var reviews: List<Review>? = null
+    var reviews: ArrayList<Review>? = null
 
 }
