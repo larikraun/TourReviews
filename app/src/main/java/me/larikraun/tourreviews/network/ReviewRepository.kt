@@ -12,8 +12,8 @@ import javax.inject.Inject
 class ReviewRepository @Inject
 constructor(internal var mRetrofit: Retrofit) {
 
-    fun fetchReviews(): Observable<ReviewResponse> {
-        return mRetrofit.create(FetchReviewService::class.java).fetchReviews(10, 0, 0, "date_of_review", "DESC")
+    fun fetchReviews(count: Int, page: Int): Observable<ReviewResponse> {
+        return mRetrofit.create(FetchReviewService::class.java).fetchReviews(count, page, 0, "date_of_review", "DESC")
     }
 
 }

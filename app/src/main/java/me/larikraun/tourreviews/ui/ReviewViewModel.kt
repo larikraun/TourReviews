@@ -17,13 +17,14 @@ import me.larikraun.tourreviews.utils.ConnectionUtil
  */
 class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivity: ConnectionUtil) : ViewModel() {
     var reviews = MutableLiveData<ArrayList<Review>>()
+    var totalReviewsComments = MutableLiveData<Int>()
     val errorMessage = MutableLiveData<Throwable>()
 
     val isLoading = ObservableField(true)
     val hasError = ObservableField(false)
-    fun fetchReviewsList() {
+    fun fetchReviewsList(count: Int, page: Int) {
         if (connectivity.isConnectedToInternet!!)
-            mRepository.fetchReviews()
+            mRepository.fetchReviews(count, page)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(object : DisposableObserver<ReviewResponse>() {
@@ -34,6 +35,7 @@ class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivi
                         }
 
                         override fun onNext(data: ReviewResponse) {
+                            totalReviewsComments.value = data.totalReviewsComments
                             reviews.value = data.reviews
                         }
 
@@ -47,5 +49,9 @@ class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivi
             hasError.set(true)
             isLoading.set(false)
         }
+    }
+
+    fun getTotalComments(): Int? {
+        return totalReviewsComments.value
     }
 }
