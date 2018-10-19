@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
+import me.larikraun.tourreviews.model.Review
 import me.larikraun.tourreviews.model.ReviewResponse
 import me.larikraun.tourreviews.network.ReviewRepository
 import me.larikraun.tourreviews.utils.ConnectionUtil
@@ -12,7 +13,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import org.mockito.Mockito.anyInt
 import java.util.concurrent.TimeUnit
 
 
@@ -25,9 +25,9 @@ class ReviewViewModelTest {
     @Rule
     @JvmField
     var rule: TestRule = InstantTaskExecutorRule()
-    var repository: ReviewRepository = mock()
-    var connectivity: ConnectionUtil = mock()
-    var viewModel = ReviewViewModel(repository, connectivity)
+    private var repository: ReviewRepository = mock()
+    private var connectivity: ConnectionUtil = mock()
+    private var viewModel = ReviewViewModel(repository, connectivity)
 
     @Test
     fun `display UI when there is an error`() {
@@ -37,6 +37,15 @@ class ReviewViewModelTest {
 
     @Test
     fun `display recycler view when api returns a valid response`() {
+        val response = ReviewResponse()
+        response.status = true
+        response.totalReviewsComments = 10
+        val reviews = ArrayList<Review>()
+        reviews.add(Review(type = "REVIEW", rating = "3.5f", title = "A random title", message = "A very long and random message from the author", author = "Omolara - Nigeria", date = "October, 19, 2018"))
+        response.reviews = reviews
+        whenever(repository.fetchReviews(2, 0))
+                .thenReturn(Observable.just(response))
+
         val subscriber = TestObserver<ReviewResponse>().apply {
             repository.fetchReviews(2, 0).subscribe(this)
             this.awaitTerminalEvent(2, TimeUnit.SECONDS)
@@ -46,21 +55,15 @@ class ReviewViewModelTest {
         val reviewResponse = onSuccess[0]
         assertEquals(true, (reviewResponse[0] as ReviewResponse).status)
         assertEquals(10, (reviewResponse[0] as ReviewResponse).totalReviewsComments)
+
     }
 
     @Test
     fun `display error when the api is not successful`() {
+        val errorResponse = Throwable("Error Occurred")
         whenever(repository.fetchReviews(2, 0))
-                .thenReturn(Observable.error(Throwable("Error Occurred")))
-        //   val subscriber = TestObserver<ReviewResponse>().apply {
-        repository.fetchReviews(anyInt(), anyInt()).test().assertError(Throwable("Error occurred"))
-//                    .subscribe(this)
-//            this.awaitTerminalEvent(2, TimeUnit.SECONDS)
-//            this.assertError(Throwable("Error occurred"))
-        //  }
-//        val onSuccess = subscriber.events
-//        val reviewResponse = onSuccess[0]
-//
-//        assertEquals((reviewResponse[0] as Throwable).message, viewModel.errorMessage.value!!.message)
+                .thenReturn(Observable.error(errorResponse))
+        repository.fetchReviews(2, 0).test().assertError(errorResponse)
+
     }
 }
