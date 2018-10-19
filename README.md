@@ -10,6 +10,7 @@ The code is 100% written in **Kotlin**. It uses the **MVVM** architecture.
 * Calligraphy
 * Mockito
 * Mockito-Kotlin
+* CircleCI
 
 ### Test Cases
 * Display error when the api call is not successful
