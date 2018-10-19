@@ -88,8 +88,7 @@ class ReviewActivity : AppCompatActivity(), LifecycleOwner {
                     viewModel.errorMessage.value = Throwable("No reviews for this place")
                     viewModel.hasError.set(true)
                 } else {
-                    reviewsList.addAll(it)
-                    adapter.notifyDataSetChanged()
+                    adapter.addItems(it)
                 }
             }
         })

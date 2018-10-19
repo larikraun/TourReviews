@@ -5,11 +5,7 @@ import me.larikraun.tourreviews.model.ReviewResponse
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-/**
- * Author: Omolara Adejuwon
- * Date: 17/10/2018.
- */
-class ReviewRepository @Inject
+open class ReviewRepository @Inject
 constructor(internal var mRetrofit: Retrofit) {
 
     fun fetchReviews(count: Int, page: Int): Observable<ReviewResponse> {

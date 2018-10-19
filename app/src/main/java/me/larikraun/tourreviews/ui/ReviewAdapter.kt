@@ -34,6 +34,10 @@ class ReviewAdapter(private val items: ArrayList<Review>) : RecyclerView.Adapter
         notifyItemInserted(items!!.size - 1)
     }
 
+    fun addItems(reviews: ArrayList<Review>) {
+        items.addAll(reviews)
+        notifyDataSetChanged()
+    }
     fun removeItem() {
         items?.removeAt(items.size - 1)
         notifyItemRemoved(items!!.size)

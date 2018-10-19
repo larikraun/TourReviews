@@ -15,7 +15,7 @@ import me.larikraun.tourreviews.utils.ConnectionUtil
  * Author: Omolara Adejuwon
  * Date: 18/10/2018.
  */
-class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivity: ConnectionUtil) : ViewModel() {
+open class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivity: ConnectionUtil) : ViewModel() {
     var reviews = MutableLiveData<ArrayList<Review>>()
     var totalReviewsComments = MutableLiveData<Int>()
     val errorMessage = MutableLiveData<Throwable>()
@@ -30,13 +30,11 @@ class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivi
                     .subscribeWith(object : DisposableObserver<ReviewResponse>() {
 
                         override fun onError(e: Throwable) {
-                            errorMessage.value = e
-                            hasError.set(true)
+                            updateUIForWithError(e)
                         }
 
                         override fun onNext(data: ReviewResponse) {
-                            totalReviewsComments.value = data.totalReviewsComments
-                            reviews.value = data.reviews
+                            updateReviewsList(data)
                         }
 
                         override fun onComplete() {
@@ -54,4 +52,16 @@ class ReviewViewModel(internal var mRepository: ReviewRepository, var connectivi
     fun getTotalComments(): Int? {
         return totalReviewsComments.value
     }
+
+    fun updateReviewsList(data: ReviewResponse) {
+        totalReviewsComments.value = data.totalReviewsComments
+        reviews.value = data.reviews
+    }
+
+    fun updateUIForWithError(e: Throwable) {
+        errorMessage.value = e
+        hasError.set(true)
+    }
+
+
 }

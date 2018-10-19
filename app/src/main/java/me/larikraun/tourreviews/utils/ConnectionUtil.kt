@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ConnectionUtil @Inject constructor(var applicationContext: Context) {
+open class ConnectionUtil @Inject constructor(var applicationContext: Context) {
 
     val isConnectedToInternet: Boolean?
         get() {
