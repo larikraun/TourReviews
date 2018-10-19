@@ -3,6 +3,7 @@ package me.larikraun.tourreviews.ui
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -20,6 +21,7 @@ import me.larikraun.tourreviews.databinding.ActivityReviewBinding
 import me.larikraun.tourreviews.model.Review
 import me.larikraun.tourreviews.network.ReviewRepository
 import me.larikraun.tourreviews.utils.ConnectionUtil
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import javax.inject.Inject
 
 
@@ -28,16 +30,16 @@ class ReviewActivity : AppCompatActivity(), LifecycleOwner {
     lateinit var repo: ReviewRepository
     @Inject
     lateinit var connectionUtil: ConnectionUtil
-    lateinit var mComponent: AppMainComponent
-    lateinit var viewModelFactory: ReviewViewModelFactory
+    private lateinit var mComponent: AppMainComponent
+    private lateinit var viewModelFactory: ReviewViewModelFactory
     lateinit var adapter: ReviewAdapter
     lateinit var layoutManager: LinearLayoutManager
-    lateinit var mBinding: ActivityReviewBinding
+    private lateinit var mBinding: ActivityReviewBinding
     var isLoading = false
     var hasMore = false
     var page = 0
     var count = 10
-    var reviewsList = ArrayList<Review>()
+    private var reviewsList = ArrayList<Review>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_review)
@@ -94,4 +96,7 @@ class ReviewActivity : AppCompatActivity(), LifecycleOwner {
         viewModel.errorMessage.observe(this, Observer<Throwable> { error.text = it?.message })
     }
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+    }
 }

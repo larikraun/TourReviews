@@ -1,6 +1,7 @@
 package me.larikraun.tourreviews;
 
-import android.app.Application;
+import android.app.Application
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
 /**
  * Author: Omolara Adejuwon
@@ -10,5 +11,10 @@ class TourReviewApp : Application() {
 
 	override fun onCreate() {
 		super.onCreate ()
+		CalligraphyConfig.initDefault(CalligraphyConfig.Builder()
+				.setDefaultFontPath("fonts/montserrat/Montserrat-Regular.otf")
+				.setFontAttrId(R.attr.fontPath)
+				.build()
+		)
 	}
 }

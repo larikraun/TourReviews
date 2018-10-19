@@ -18,21 +18,22 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="AppTheme.ReviewTextView">
-        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="AppTheme.ReviewTitle" parent="AppTheme.ReviewTextView">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="fontPath">"fonts/montserrat/Montserrat-Bold.otf"</item>
     </style>
 
     <style name="AppTheme.ReviewMessage" parent="AppTheme.ReviewTextView">
         <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="fontPath">"fonts/montserrat/Montserrat-Medium.otf"</item>
     </style>
 
     <style name="AppTheme.ReviewDetails" parent="AppTheme.ReviewTextView">
         <item name="android:textSize">14sp</item>
+        <item name="fontPath">"fonts/montserrat/Montserrat-Italic.otf"</item>
     </style>
 </resources>
