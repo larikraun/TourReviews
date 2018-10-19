@@ -1,4 +1,4 @@
-package me.larikraun.tourreviews
+package me.larikraun.tourreviews.ui
 
 import android.databinding.DataBindingUtil
 import android.graphics.Color
@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import me.larikraun.tourreviews.R
 import me.larikraun.tourreviews.databinding.ReviewListItemBinding
 import me.larikraun.tourreviews.model.Review
 
