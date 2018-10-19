@@ -18,7 +18,7 @@ jobs:
 
       - run:
           name: Assemble
-          command: ./gradlew assembleMock
+          command: ./gradlew assemble
       - store_artifacts:
           path: artifacts/android/build/outputs/
       - store_artifacts:
@@ -39,9 +39,9 @@ jobs:
 
       - run:
           name: Run Lint Tests
-          command: ./gradlew lintMockDebug
+          command: ./gradlew lintDebug
       - run:
-          name: Run Unit Tests (Mock)
+          name: Run Unit Tests
           command: ./gradlew testDebugUnitTest
       ##- run:
          ## name: Run Instrumented Test (DEV)
